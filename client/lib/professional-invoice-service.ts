@@ -524,7 +524,7 @@ export class ProfessionalInvoiceService {
             <div class="totals-section">
               <table class="totals-table">
                 <tr>
-                  <td class="label">Subtotal:</td>
+                  <td class="label">Subtotal (${invoiceData.items.reduce((n, i) => n + (i.quantity || 0), 0)} items):</td>
                   <td class="amount">₹${invoiceData.subtotal.toFixed(2)}</td>
                 </tr>
                 ${invoiceData.totalDiscount > 0 ? `
@@ -533,12 +533,12 @@ export class ProfessionalInvoiceService {
                     <td class="amount">-₹${invoiceData.totalDiscount.toFixed(2)}</td>
                   </tr>
                 ` : ''}
-                ${invoiceData.taxAmount > 0 ? `
+                ${(() => { const rate = invoiceData.subtotal > 0 ? Math.round((invoiceData.taxAmount / invoiceData.subtotal) * 100) : 0; return invoiceData.taxAmount > 0 ? `
                   <tr>
-                    <td class="label">Tax Amount:</td>
-                    <td class="amount">₹${invoiceData.taxAmount.toFixed(2)}</td>
-                  </tr>
-                ` : ''}
+                    <td class=\"label\">Tax (GST ${rate}%):</td>
+                    <td class=\"amount\">₹${invoiceData.taxAmount.toFixed(2)}</td>
+                  </tr>` : '' })()}
+                ${(() => { const ship:any = (invoiceData as any).shippingFee || 0; return `<tr><td class=\"label\">Shipping:</td><td class=\"amount\">${ship > 0 ? '₹'+ship.toFixed(2) : 'FREE'}</td></tr>` })()}
                 <tr class="total-row">
                   <td class="label">Total Amount:</td>
                   <td class="amount">₹${invoiceData.totalAmount.toFixed(2)}</td>
