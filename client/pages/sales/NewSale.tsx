@@ -227,23 +227,13 @@ export default function NewSale() {
         commissionAmount
       } as any;
 
-      const { blob, documentId } = await professionalInvoiceService.generateAndStoreInvoice(invoiceData, {
+      await professionalInvoiceService.generateAndStoreInvoice(invoiceData, {
         companyName: business?.name || 'Business',
         showTermsAndConditions: false
       }, true);
 
-      // WhatsApp send: open wa.me with message and link to document vault
-      try {
-        const phone = (sale.customerNumber || '').replace(/\s+/g,'');
-        const origin = window.location.origin;
-        const link = `${origin}/dashboard/document-vault`;
-        const msg = encodeURIComponent(`Invoice ${invoiceNumber}\nAmount: ₹${total.toFixed(2)}\nStatus: ${form.paymentStatus}\nLink: ${link}`);
-        if (/^\+?[1-9]\d{7,14}$/.test(phone)) {
-          window.open(`https://wa.me/${phone.replace(/^\+/, '')}?text=${msg}`, '_blank');
-        }
-      } catch {}
-
-      toast({ title: `Invoice ${invoiceNumber} generated` });
+      setGenerated({ invoiceId: saved.id, invoiceNumber, phone: sale.customerNumber, data: invoiceData });
+      toast({ title: `Invoice ${invoiceNumber} generated. Review below and send.` });
     } catch (e) {
       console.error(e);
       toast({ title: 'Failed to generate invoice', variant: 'destructive' });
