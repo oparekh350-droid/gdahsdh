@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import ProfessionalInvoice from '@/components/ProfessionalInvoice';
 import BackButton from '@/components/BackButton';
 import { useToast } from '@/hooks/use-toast';
 import { saleInvoiceRepository } from '@/services/indexeddb/repositories/saleInvoiceRepository';
