@@ -208,7 +208,7 @@ export class ProfessionalInvoiceService {
             
             .invoice-meta .label {
               font-weight: 600;
-              color: ${config.secondaryColor};
+              color: #444444;
               width: 120px;
             }
             
@@ -514,7 +514,7 @@ export class ProfessionalInvoiceService {
                     <td class="text-center">${item.size || '-'}</td>
                     <td class="text-center">${item.color || '-'}</td>
                     <td class="text-center">${item.quantity}</td>
-                    <td class="text-right amount">���${Number(item.rate).toFixed(2)}</td>
+                    <td class="text-right amount">₹${Number(item.rate).toFixed(2)}</td>
                     <td class="text-right amount">₹${Number(item.amount).toFixed(2)}</td>
                   </tr>
                 `).join('')}
