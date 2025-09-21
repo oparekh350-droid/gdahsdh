@@ -235,9 +235,41 @@ class DocumentVaultService {
         updatedAt: new Date().toISOString()
       };
 
+      // Attempt to store document; if fileContent is too large, fallback to saving metadata only
       documents.push(document);
-      localStorage.setItem(this.DOCUMENTS_KEY, JSON.stringify(documents));
-      
+
+      try {
+        localStorage.setItem(this.DOCUMENTS_KEY, JSON.stringify(documents));
+      } catch (e) {
+        // Likely quota exceeded or serialization error due to large fileContent.
+        // Remove fileContent from the document and retry storing minimal metadata.
+        try {
+          const minimalDocs = documents.map(d => {
+            const copy = { ...d } as any;
+            if (copy.fileContent) delete copy.fileContent;
+            if (!copy.fileUrl) copy.fileUrl = '';
+            return copy;
+          });
+          localStorage.setItem(this.DOCUMENTS_KEY, JSON.stringify(minimalDocs));
+          // Update our 'document' reference to the minimal saved one
+          const savedDoc = minimalDocs.find(d => d.id === document.id) as BusinessDocument;
+          // Log activity
+          this.logActivity({
+            documentId: savedDoc.id,
+            action: 'created',
+            details: `Document "${savedDoc.title}" was created (content not stored due to size)`
+          });
+
+          // Update folder document count
+          this.updateFolderCount();
+
+          return { success: true, document: savedDoc, message: 'Document added (content omitted due to size)' };
+        } catch (err) {
+          console.error('Failed to persist documents to localStorage:', err);
+          return { success: false, message: 'Failed to add document' };
+        }
+      }
+
       // Log activity
       this.logActivity({
         documentId: document.id,
@@ -247,7 +279,7 @@ class DocumentVaultService {
 
       // Update folder document count
       this.updateFolderCount();
-      
+
       return { success: true, document, message: 'Document added successfully' };
     } catch (error) {
       return { success: false, message: 'Failed to add document' };

@@ -16,11 +16,10 @@ import Settings from "./pages/dashboard/Settings"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { ThemeProvider } from "next-themes"
 import ErrorBoundary from "./components/ErrorBoundary"
-import AccountPage from "./pages/dashboard/AccountPage"
+import Account from "./pages/dashboard/Account"
 import BranchManagement from "./pages/dashboard/BranchManagement"
-import StaffRequests from "./pages/dashboard/StaffRequests"
+import StaffRequests from "./pages/StaffRequests"
 import ImportBatchDetail from "./pages/dashboard/ImportBatchDetail"
-import UpgradeToPremium from "./pages/dashboard/UpgradeToPremium"
 import FloatingBackButton from "./components/FloatingBackButton"
 import NotificationBell from "./components/NotificationBell"
 // Business-specific components
@@ -165,7 +164,7 @@ const App = () => (
             />
 
             {/* Dashboard sub-routes */}
-            <Route path="/dashboard/account" element={<AccountPage />} />
+            <Route path="/dashboard/account" element={<Account />} />
             <Route
               path="/dashboard/analytics"
               element={
@@ -723,7 +722,11 @@ const App = () => (
               path="/upgrade-to-premium"
               element={
                 <ProtectedRoute>
-                  <UpgradeToPremium />
+                  <PlaceholderPage
+                    title="Upgrade to Premium"
+                    description="Unlock advanced features by upgrading your plan."
+                    feature="Premium upgrade"
+                  />
                 </ProtectedRoute>
               }
             />

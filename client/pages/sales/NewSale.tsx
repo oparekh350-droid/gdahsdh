@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import ProfessionalInvoice from '@/components/ProfessionalInvoice';
 import BackButton from '@/components/BackButton';
 import { useToast } from '@/hooks/use-toast';
 import { saleInvoiceRepository } from '@/services/indexeddb/repositories/saleInvoiceRepository';
@@ -15,6 +16,7 @@ import { serviceRepository } from '@/services/indexeddb/repositories/serviceRepo
 import { dataManager } from '@/lib/data-manager';
 import { professionalInvoiceService } from '@/lib/professional-invoice-service';
 import { authService } from '@/lib/auth-service';
+import { getBusinessData } from '@/lib/business-data';
 
 interface LineItem { id: string; type: 'product' | 'service'; name: string; quantity: number; unitPrice: number; isCustom?: boolean; }
 
@@ -44,6 +46,8 @@ export default function NewSale() {
   const [services, setServices] = useState<{ id: string; name: string; serviceCharge: number }[]>([]);
   const [items, setItems] = useState<LineItem[]>([]);
   const [staff, setStaff] = useState<{ id: string; name: string }[]>([]);
+  const [generated, setGenerated] = useState<{ invoiceId: string; invoiceNumber: string; phone: string; data: any } | null>(null);
+  const [sendVia, setSendVia] = useState<'SMS'|'WhatsApp'>('SMS');
   const [form, setForm] = useState<FormState>({
     productId: '',
     productLabel: '',
@@ -225,23 +229,14 @@ export default function NewSale() {
         commissionAmount
       } as any;
 
-      const { blob, documentId } = await professionalInvoiceService.generateAndStoreInvoice(invoiceData, {
+      await professionalInvoiceService.generateAndStoreInvoice(invoiceData, {
         companyName: business?.name || 'Business',
-        showTermsAndConditions: false
+        showTermsAndConditions: false,
+        logoUrl: (getBusinessData() as any)?.logoUrl || undefined
       }, true);
 
-      // WhatsApp send: open wa.me with message and link to document vault
-      try {
-        const phone = (sale.customerNumber || '').replace(/\s+/g,'');
-        const origin = window.location.origin;
-        const link = `${origin}/dashboard/document-vault`;
-        const msg = encodeURIComponent(`Invoice ${invoiceNumber}\nAmount: ₹${total.toFixed(2)}\nStatus: ${form.paymentStatus}\nLink: ${link}`);
-        if (/^\+?[1-9]\d{7,14}$/.test(phone)) {
-          window.open(`https://wa.me/${phone.replace(/^\+/, '')}?text=${msg}`, '_blank');
-        }
-      } catch {}
-
-      toast({ title: `Invoice ${invoiceNumber} generated` });
+      setGenerated({ invoiceId: saved.id, invoiceNumber, phone: sale.customerNumber, data: invoiceData });
+      toast({ title: `Invoice ${invoiceNumber} generated. Review below and send.` });
     } catch (e) {
       console.error(e);
       toast({ title: 'Failed to generate invoice', variant: 'destructive' });
@@ -338,13 +333,16 @@ export default function NewSale() {
             )}
 
             <div>
-              <Label>Tax rate</Label>
-              <Select value={String(form.taxRate)} onValueChange={v => setForm(prev => ({ ...prev, taxRate: Number(v) }))}>
-                <SelectTrigger><SelectValue placeholder="None" /></SelectTrigger>
-                <SelectContent>
-                  {[0,5,12,18,28].map(r => <SelectItem key={r} value={String(r)}>{r === 0 ? 'None' : `${r}%`}</SelectItem>)}
-                </SelectContent>
-              </Select>
+              <Label>Tax rate (%)</Label>
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                step={0.01}
+                placeholder="Optional"
+                value={Number.isFinite(form.taxRate) ? form.taxRate : ''}
+                onChange={e => setForm(prev => ({ ...prev, taxRate: e.target.value === '' ? 0 : Number(e.target.value) }))}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -453,6 +451,48 @@ export default function NewSale() {
           </CardContent>
         </Card>
       </div>
+
+      {generated && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Generated Invoice</CardTitle>
+            <CardDescription>Review the invoice below, then click Send to share with the customer.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ProfessionalInvoice invoiceData={generated.data} showActions={false} />
+            <div className="flex flex-col sm:flex-row gap-3 items-end justify-between">
+              <div className="flex items-center gap-3">
+                <Label className="text-sm">Send via</Label>
+                <select
+                  className="px-3 py-2 border rounded-md text-sm"
+                  value={sendVia}
+                  onChange={(e)=> setSendVia(e.target.value as any)}
+                >
+                  <option value="SMS">SMS</option>
+                  <option value="WhatsApp">WhatsApp</option>
+                </select>
+              </div>
+              <Button
+                onClick={() => {
+                  const phone = (generated.phone || '').replace(/\s+/g, '');
+                  const origin = window.location.origin;
+                  const link = `${origin}/dashboard/document-vault`;
+                  const msg = encodeURIComponent(`Invoice ${generated.invoiceNumber}\nAmount: ₹${total.toFixed(2)}\nStatus: ${form.paymentStatus}\nLink: ${link}`);
+                  if (!/^\+?[1-9]\d{7,14}$/.test(phone)) return;
+                  if (sendVia === 'WhatsApp') {
+                    window.open(`https://wa.me/${phone.replace(/^\+/, '')}?text=${msg}`, '_blank');
+                  } else {
+                    window.open(`sms:${phone}?&body=${msg}`, '_self');
+                  }
+                }}
+                className="min-w-28"
+              >
+                Send
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

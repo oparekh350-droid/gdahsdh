@@ -164,13 +164,30 @@ export class ProfessionalInvoiceService {
               text-align: right;
               flex: 0 0 auto;
             }
-            
-            .invoice-title h1 {
-              font-size: 32px;
+            .avatar-circle {
+              width: 56px;
+              height: 56px;
+              border-radius: 9999px;
+              background: ${config.primaryColor};
+              color: white;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
               font-weight: bold;
-              color: ${config.primaryColor};
-              margin-bottom: 10px;
+              font-size: 20px;
+              margin-bottom: 8px;
             }
+            .order-link {
+              color: ${config.primaryColor};
+              font-weight: 600;
+              text-decoration: none;
+            }
+            .muted {
+              color: ${config.secondaryColor};
+              font-size: 12px;
+            }
+            
+            /* Removed big INVOICE title per requirements */
             
             .invoice-meta {
               background: #f8fafc;
@@ -441,20 +458,20 @@ export class ProfessionalInvoiceService {
                 </div>
               </div>
               <div class="invoice-title">
-                <h1>INVOICE</h1>
+                <div class="avatar-circle">${(config.companyName || 'B').trim().charAt(0).toUpperCase()}</div>
                 <div class="invoice-meta">
                   <table>
                     <tr>
-                      <td class="label">Invoice No:</td>
-                      <td><strong>${invoiceData.invoiceNumber}</strong></td>
+                      <td class="label">Order #:</td>
+                      <td><a class="order-link">${invoiceData.invoiceNumber}</a></td>
                     </tr>
                     <tr>
-                      <td class="label">Invoice Date:</td>
+                      <td class="label">Date:</td>
                       <td>${new Date(invoiceData.invoiceDate).toLocaleDateString('en-IN')}</td>
                     </tr>
                     <tr>
-                      <td class="label">Due Date:</td>
-                      <td>${new Date(invoiceData.dueDate).toLocaleDateString('en-IN')}</td>
+                      <td class="label">Time:</td>
+                      <td>${new Date(invoiceData.invoiceDate).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
                     </tr>
                   </table>
                 </div>
@@ -480,26 +497,24 @@ export class ProfessionalInvoiceService {
               <thead>
                 <tr>
                   <th style="width: 5%">#</th>
-                  <th style="width: 35%">Description</th>
-                  <th style="width: 10%" class="text-center">HSN</th>
+                  <th style="width: 35%">Product Name</th>
+                  <th style="width: 10%" class="text-center">Size</th>
+                  <th style="width: 10%" class="text-center">Color</th>
                   <th style="width: 10%" class="text-center">Qty</th>
-                  <th style="width: 10%" class="text-center">Unit</th>
-                  <th style="width: 12%" class="text-right">Rate</th>
-                  <th style="width: 8%" class="text-right">Disc%</th>
-                  <th style="width: 10%" class="text-right">Amount</th>
+                  <th style="width: 12%" class="text-right">Price</th>
+                  <th style="width: 10%" class="text-right">Total</th>
                 </tr>
               </thead>
               <tbody>
-                ${invoiceData.items.map((item, index) => `
+                ${invoiceData.items.map((item: any, index) => `
                   <tr>
                     <td class="text-center">${index + 1}</td>
                     <td>${item.description}</td>
-                    <td class="text-center">${item.hsn || '-'}</td>
+                    <td class="text-center">${item.size || '-'}</td>
+                    <td class="text-center">${item.color || '-'}</td>
                     <td class="text-center">${item.quantity}</td>
-                    <td class="text-center">${item.unit}</td>
-                    <td class="text-right amount">₹${item.rate.toFixed(2)}</td>
-                    <td class="text-right">${item.discount || 0}%</td>
-                    <td class="text-right amount">₹${item.amount.toFixed(2)}</td>
+                    <td class="text-right amount">₹${Number(item.rate).toFixed(2)}</td>
+                    <td class="text-right amount">₹${Number(item.amount).toFixed(2)}</td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -509,7 +524,7 @@ export class ProfessionalInvoiceService {
             <div class="totals-section">
               <table class="totals-table">
                 <tr>
-                  <td class="label">Subtotal:</td>
+                  <td class="label">Subtotal (${invoiceData.items.reduce((n, i) => n + (i.quantity || 0), 0)} items):</td>
                   <td class="amount">₹${invoiceData.subtotal.toFixed(2)}</td>
                 </tr>
                 ${invoiceData.totalDiscount > 0 ? `
@@ -518,12 +533,12 @@ export class ProfessionalInvoiceService {
                     <td class="amount">-₹${invoiceData.totalDiscount.toFixed(2)}</td>
                   </tr>
                 ` : ''}
-                ${invoiceData.taxAmount > 0 ? `
+                ${(() => { const rate = invoiceData.subtotal > 0 ? Math.round((invoiceData.taxAmount / invoiceData.subtotal) * 100) : 0; return invoiceData.taxAmount > 0 ? `
                   <tr>
-                    <td class="label">Tax Amount:</td>
-                    <td class="amount">₹${invoiceData.taxAmount.toFixed(2)}</td>
-                  </tr>
-                ` : ''}
+                    <td class=\"label\">Tax (GST ${rate}%):</td>
+                    <td class=\"amount\">₹${invoiceData.taxAmount.toFixed(2)}</td>
+                  </tr>` : '' })()}
+                ${(() => { const ship:any = (invoiceData as any).shippingFee || 0; return `<tr><td class=\"label\">Shipping:</td><td class=\"amount\">${ship > 0 ? '₹'+ship.toFixed(2) : 'FREE'}</td></tr>` })()}
                 <tr class="total-row">
                   <td class="label">Total Amount:</td>
                   <td class="amount">₹${invoiceData.totalAmount.toFixed(2)}</td>
@@ -582,14 +597,7 @@ export class ProfessionalInvoiceService {
                 ` : ''}
                 ${config.footerText ? `<div style="margin-top: 15px; font-size: 11px; color: ${config.secondaryColor};">${config.footerText}</div>` : ''}
               </div>
-              <div class="signature-section">
-                ${config.signatureImage ? `<img src="${config.signatureImage}" alt="Signature" class="signature-image">` : ''}
-                <div class="signature-line"></div>
-                <div class="signature-details">
-                  <div style="font-weight: bold;">${config.signatureName}</div>
-                  <div>${config.signatureDesignation}</div>
-                </div>
-              </div>
+              <!-- Signature section removed per requirements -->
             </div>
           </div>
         </body>
@@ -822,10 +830,26 @@ export class ProfessionalInvoiceService {
         }
       };
 
-      const addRes = documentVaultService.addDocument(documentData);
+      // Try to add document with fileContent. If it fails (likely due to localStorage quota), retry without fileContent.
+      let addRes = documentVaultService.addDocument(documentData as any);
+
       if (!addRes.success || !addRes.document) {
-        throw new Error(addRes.message || 'Failed to add document');
+        // Retry without fileContent to avoid localStorage quota issues
+        const minimalData = { ...documentData } as any;
+        delete minimalData.fileContent;
+        minimalData.fileUrl = '';
+
+        const retryRes = documentVaultService.addDocument(minimalData);
+        if (!retryRes.success || !retryRes.document) {
+          throw new Error(retryRes.message || addRes.message || 'Failed to add document');
+        }
+
+        console.warn('Document stored without file content due to storage limits');
+        const documentId = retryRes.document.id;
+        console.log(`Invoice ${invoiceData.invoiceNumber} stored to Document Vault with ID: ${documentId} (content omitted)`);
+        return documentId;
       }
+
       const documentId = addRes.document.id;
 
       console.log(`Invoice ${invoiceData.invoiceNumber} stored to Document Vault with ID: ${documentId}`);
