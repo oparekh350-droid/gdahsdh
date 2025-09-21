@@ -257,7 +257,7 @@ export class ProfessionalInvoiceService {
             }
             
             .items-table th {
-              background: ${config.primaryColor};
+              background: #000000;
               color: white;
               padding: 12px 8px;
               text-align: left;
