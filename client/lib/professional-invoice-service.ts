@@ -69,7 +69,7 @@ export class ProfessionalInvoiceService {
   private static instance: ProfessionalInvoiceService;
   
   private defaultCustomization: InvoiceCustomization = {
-    primaryColor: '#f97316',
+    primaryColor: '#000000',
     secondaryColor: '#64748b',
     companyName: 'Your Company Name',
     companyAddress: 'Your Business Address\nCity, State - PIN Code',
