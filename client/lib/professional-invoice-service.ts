@@ -307,7 +307,7 @@ export class ProfessionalInvoiceService {
             
             .totals-table td {
               padding: 8px 12px;
-              border-bottom: 1px solid #e5e7eb;
+              border-bottom: 1px solid #E0E0E0;
             }
             
             .totals-table .label {
