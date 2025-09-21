@@ -334,11 +334,11 @@ export class ProfessionalInvoiceService {
             }
             
             .amount-in-words {
-              background: #f8fafc;
+              background: #E0E0E0;
               padding: 15px;
               border-radius: 8px;
               margin: 20px 0;
-              border-left: 4px solid ${config.primaryColor};
+              border-left: 4px solid #000000;
             }
             
             .amount-in-words .label {
