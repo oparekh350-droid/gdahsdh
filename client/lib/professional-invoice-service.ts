@@ -117,7 +117,7 @@ export class ProfessionalInvoiceService {
               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               font-size: 12px;
               line-height: 1.4;
-              color: #1f2937;
+              color: #000000;
               background: white;
             }
             
