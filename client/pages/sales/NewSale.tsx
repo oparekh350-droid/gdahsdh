@@ -47,6 +47,7 @@ export default function NewSale() {
   const [items, setItems] = useState<LineItem[]>([]);
   const [staff, setStaff] = useState<{ id: string; name: string }[]>([]);
   const [generated, setGenerated] = useState<{ invoiceId: string; invoiceNumber: string; phone: string; data: any } | null>(null);
+  const [sendVia, setSendVia] = useState<'SMS'|'WhatsApp'>('SMS');
   const [form, setForm] = useState<FormState>({
     productId: '',
     productLabel: '',
