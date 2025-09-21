@@ -1343,11 +1343,10 @@ export default function RecipeManagement() {
 
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <textarea
+                <Textarea
                   id="description"
                   value={newRecipe.description}
                   onChange={(e) => setNewRecipe(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                   rows={3}
                   placeholder="Describe the product and manufacturing process"
                 />
