@@ -822,10 +822,26 @@ export class ProfessionalInvoiceService {
         }
       };
 
-      const addRes = documentVaultService.addDocument(documentData);
+      // Try to add document with fileContent. If it fails (likely due to localStorage quota), retry without fileContent.
+      let addRes = documentVaultService.addDocument(documentData as any);
+
       if (!addRes.success || !addRes.document) {
-        throw new Error(addRes.message || 'Failed to add document');
+        // Retry without fileContent to avoid localStorage quota issues
+        const minimalData = { ...documentData } as any;
+        delete minimalData.fileContent;
+        minimalData.fileUrl = '';
+
+        const retryRes = documentVaultService.addDocument(minimalData);
+        if (!retryRes.success || !retryRes.document) {
+          throw new Error(retryRes.message || addRes.message || 'Failed to add document');
+        }
+
+        console.warn('Document stored without file content due to storage limits');
+        const documentId = retryRes.document.id;
+        console.log(`Invoice ${invoiceData.invoiceNumber} stored to Document Vault with ID: ${documentId} (content omitted)`);
+        return documentId;
       }
+
       const documentId = addRes.document.id;
 
       console.log(`Invoice ${invoiceData.invoiceNumber} stored to Document Vault with ID: ${documentId}`);
