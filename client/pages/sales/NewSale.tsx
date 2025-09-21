@@ -340,13 +340,16 @@ export default function NewSale() {
             )}
 
             <div>
-              <Label>Tax rate</Label>
-              <Select value={String(form.taxRate)} onValueChange={v => setForm(prev => ({ ...prev, taxRate: Number(v) }))}>
-                <SelectTrigger><SelectValue placeholder="None" /></SelectTrigger>
-                <SelectContent>
-                  {[0,5,12,18,28].map(r => <SelectItem key={r} value={String(r)}>{r === 0 ? 'None' : `${r}%`}</SelectItem>)}
-                </SelectContent>
-              </Select>
+              <Label>Tax rate (%)</Label>
+              <Input
+                type="number"
+                min={0}
+                max={100}
+                step={0.01}
+                placeholder="Optional"
+                value={Number.isFinite(form.taxRate) ? form.taxRate : ''}
+                onChange={e => setForm(prev => ({ ...prev, taxRate: e.target.value === '' ? 0 : Number(e.target.value) }))}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
