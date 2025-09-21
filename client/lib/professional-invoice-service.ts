@@ -576,14 +576,7 @@ export class ProfessionalInvoiceService {
                 ` : ''}
                 ${config.footerText ? `<div style="margin-top: 15px; font-size: 11px; color: ${config.secondaryColor};">${config.footerText}</div>` : ''}
               </div>
-              <div class="signature-section">
-                ${config.signatureImage ? `<img src="${config.signatureImage}" alt="Signature" class="signature-image">` : ''}
-                <div class="signature-line"></div>
-                <div class="signature-details">
-                  <div style="font-weight: bold;">${config.signatureName}</div>
-                  <div>${config.signatureDesignation}</div>
-                </div>
-              </div>
+              <!-- Signature section removed per requirements -->
             </div>
           </div>
         </body>
