@@ -114,6 +114,20 @@ export default function SettingsPage() {
               <CardDescription>Update your business details and contact information</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {permissions.isOwner && authService.getBusinessData()?.businessCode && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-blue-800">Business Code</p>
+                    <p className="text-sm text-blue-700">{authService.getBusinessData()?.businessCode}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => navigator.clipboard.writeText(authService.getBusinessData()?.businessCode || '')}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              )}
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="businessName">Business Name</Label>
