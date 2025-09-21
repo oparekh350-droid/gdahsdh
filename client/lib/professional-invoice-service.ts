@@ -230,10 +230,10 @@ export class ProfessionalInvoiceService {
             .section-title {
               font-size: 14px;
               font-weight: bold;
-              color: ${config.primaryColor};
+              color: #000000;
               margin-bottom: 10px;
               padding-bottom: 5px;
-              border-bottom: 1px solid #e5e7eb;
+              border-bottom: 1px solid #E0E0E0;
             }
             
             .customer-details {
@@ -537,7 +537,7 @@ export class ProfessionalInvoiceService {
                 ${(() => { const rate = invoiceData.subtotal > 0 ? Math.round((invoiceData.taxAmount / invoiceData.subtotal) * 100) : 0; return invoiceData.taxAmount > 0 ? `
                   <tr>
                     <td class=\"label\">Tax (GST ${rate}%):</td>
-                    <td class=\"amount\">₹${invoiceData.taxAmount.toFixed(2)}</td>
+                    <td class=\"amount\">���${invoiceData.taxAmount.toFixed(2)}</td>
                   </tr>` : '' })()}
                 ${(() => { const ship:any = (invoiceData as any).shippingFee || 0; return `<tr><td class=\"label\">Shipping:</td><td class=\"amount\">${ship > 0 ? '₹'+ship.toFixed(2) : 'FREE'}</td></tr>` })()}
                 <tr class="total-row">
