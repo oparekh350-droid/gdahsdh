@@ -165,12 +165,7 @@ export class ProfessionalInvoiceService {
               flex: 0 0 auto;
             }
             
-            .invoice-title h1 {
-              font-size: 32px;
-              font-weight: bold;
-              color: ${config.primaryColor};
-              margin-bottom: 10px;
-            }
+            /* Removed big INVOICE title per requirements */
             
             .invoice-meta {
               background: #f8fafc;
