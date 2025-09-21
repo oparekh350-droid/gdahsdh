@@ -448,6 +448,34 @@ export default function NewSale() {
           </CardContent>
         </Card>
       </div>
+
+      {generated && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Generated Invoice</CardTitle>
+            <CardDescription>Review the invoice below, then click Send to share with the customer.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ProfessionalInvoice invoiceData={generated.data} showActions={false} />
+            <div className="flex justify-end">
+              <Button
+                onClick={() => {
+                  const phone = (generated.phone || '').replace(/\s+/g, '');
+                  const origin = window.location.origin;
+                  const link = `${origin}/dashboard/document-vault`;
+                  const msg = encodeURIComponent(`Invoice ${generated.invoiceNumber}\nAmount: ₹${total.toFixed(2)}\nStatus: ${form.paymentStatus}\nLink: ${link}`);
+                  if (/^\+?[1-9]\d{7,14}$/.test(phone)) {
+                    window.open(`https://wa.me/${phone.replace(/^\+/, '')}?text=${msg}`, '_blank');
+                  }
+                }}
+                className="min-w-28"
+              >
+                Send
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
