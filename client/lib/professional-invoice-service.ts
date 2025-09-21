@@ -69,7 +69,7 @@ export class ProfessionalInvoiceService {
   private static instance: ProfessionalInvoiceService;
   
   private defaultCustomization: InvoiceCustomization = {
-    primaryColor: '#2563eb',
+    primaryColor: '#f97316',
     secondaryColor: '#64748b',
     companyName: 'Your Company Name',
     companyAddress: 'Your Business Address\nCity, State - PIN Code',
@@ -458,6 +458,7 @@ export class ProfessionalInvoiceService {
                 </div>
               </div>
               <div class="invoice-title">
+                <div style="font-weight:700; color:#6b7280; margin-bottom:6px">INVOICE</div>
                 <div class="avatar-circle">${(config.companyName || 'B').trim().charAt(0).toUpperCase()}</div>
                 <div class="invoice-meta">
                   <table>
@@ -581,6 +582,23 @@ export class ProfessionalInvoiceService {
                 </ul>
               </div>
             ` : ''}
+
+            <!-- Payment Information -->
+            ${(invoiceData.paymentMode || invoiceData.paymentStatus || (invoiceData as any).paymentId) ? `
+              <div class="terms-section">
+                <div class="section-title">Payment Information</div>
+                <div style="background:#f8fafc;padding:12px;border-radius:8px">
+                  ${invoiceData.paymentMode ? `<div><strong>Payment Method:</strong> ${invoiceData.paymentMode}</div>` : ''}
+                  ${(invoiceData as any).paymentId ? `<div><strong>Payment ID:</strong> ${(invoiceData as any).paymentId}</div>` : ''}
+                  ${invoiceData.paymentStatus ? `<div><strong>Status:</strong> ${invoiceData.paymentStatus}</div>` : ''}
+                </div>
+              </div>
+            ` : ''}
+
+            <div style="text-align:center; color:${config.secondaryColor}; margin: 20px 0 0;">
+              <div style="font-weight:600; color:${config.primaryColor};">Thank you for choosing ${config.companyName}!</div>
+              <div style="font-size:12px;">We appreciate your business. For support, contact us at ${config.companyEmail}${config.companyPhone ? ' or ' + config.companyPhone : ''}.</div>
+            </div>
 
             <!-- Footer -->
             <div class="footer">
