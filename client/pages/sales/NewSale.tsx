@@ -229,7 +229,8 @@ export default function NewSale() {
 
       await professionalInvoiceService.generateAndStoreInvoice(invoiceData, {
         companyName: business?.name || 'Business',
-        showTermsAndConditions: false
+        showTermsAndConditions: false,
+        logoUrl: (getBusinessData() as any)?.logoUrl || undefined
       }, true);
 
       setGenerated({ invoiceId: saved.id, invoiceNumber, phone: sale.customerNumber, data: invoiceData });
