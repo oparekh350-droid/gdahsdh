@@ -76,7 +76,7 @@ export class ProfessionalInvoiceService {
     companyPhone: '+91 XXXXX XXXXX',
     companyEmail: 'contact@yourcompany.com',
     gstNumber: '',
-    showTermsAndConditions: true,
+    showTermsAndConditions: false,
     termsAndConditions: [
       'Payment is due within 30 days of invoice date',
       'Late payments may be subject to interest charges',
@@ -596,8 +596,10 @@ export class ProfessionalInvoiceService {
             ` : ''}
 
             <div style="text-align:center; color:${config.secondaryColor}; margin: 20px 0 0;">
-              <div style="font-weight:600; color:${config.primaryColor};">Thank you for choosing ${config.companyName}!</div>
-              <div style="font-size:12px;">We appreciate your business. For support, contact us at ${config.companyEmail}${config.companyPhone ? ' or ' + config.companyPhone : ''}.</div>
+              <div style="font-weight:700; color:${config.primaryColor}; font-size:18px;">Thank you for choosing ${config.companyName.toUpperCase()}!</div>
+              <div style="font-size:13px; margin-top:6px; color:#6b7280;">We appreciate your business and hope you love your new items.</div>
+              <div style="font-size:12px; margin-top:8px; color:#9ca3af;">For support, contact us at ${config.companyEmail}${config.companyPhone ? ' or ' + config.companyPhone : ''}</div>
+              <div style="font-size:11px; margin-top:8px; color:#c4c4c4;">This is a computer-generated invoice and does not require a signature.</div>
             </div>
 
             <!-- Footer -->
