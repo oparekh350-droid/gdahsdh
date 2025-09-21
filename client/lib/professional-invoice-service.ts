@@ -497,13 +497,12 @@ export class ProfessionalInvoiceService {
               <thead>
                 <tr>
                   <th style="width: 5%">#</th>
-                  <th style="width: 35%">Description</th>
-                  <th style="width: 10%" class="text-center">HSN</th>
+                  <th style="width: 35%">Product Name</th>
+                  <th style="width: 10%" class="text-center">Size</th>
+                  <th style="width: 10%" class="text-center">Color</th>
                   <th style="width: 10%" class="text-center">Qty</th>
-                  <th style="width: 10%" class="text-center">Unit</th>
-                  <th style="width: 12%" class="text-right">Rate</th>
-                  <th style="width: 8%" class="text-right">Disc%</th>
-                  <th style="width: 10%" class="text-right">Amount</th>
+                  <th style="width: 12%" class="text-right">Price</th>
+                  <th style="width: 10%" class="text-right">Total</th>
                 </tr>
               </thead>
               <tbody>
