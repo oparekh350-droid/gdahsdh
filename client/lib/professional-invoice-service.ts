@@ -375,7 +375,7 @@ export class ProfessionalInvoiceService {
               bottom: 40px;
               left: 40px;
               right: 40px;
-              border-top: 2px solid ${config.primaryColor};
+              border-top: 2px solid #000000;
               padding-top: 20px;
               display: flex;
               justify-content: space-between;
