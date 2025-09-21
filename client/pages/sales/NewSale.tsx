@@ -16,6 +16,7 @@ import { serviceRepository } from '@/services/indexeddb/repositories/serviceRepo
 import { dataManager } from '@/lib/data-manager';
 import { professionalInvoiceService } from '@/lib/professional-invoice-service';
 import { authService } from '@/lib/auth-service';
+import { getBusinessData } from '@/lib/business-data';
 
 interface LineItem { id: string; type: 'product' | 'service'; name: string; quantity: number; unitPrice: number; isCustom?: boolean; }
 
