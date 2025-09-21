@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { usePermissions } from '@/lib/permissions';
 import WhatsAppConfig from '@/components/WhatsAppConfig';
+import { updateBusinessData } from '@/lib/business-data';
 import BackButton from '@/components/BackButton';
 import UpgradeButton from '@/components/UpgradeButton';
 
@@ -192,8 +193,7 @@ export default function SettingsPage() {
                     const reader = new FileReader();
                     reader.onload = ()=>{
                       try {
-                        const current = JSON.parse(localStorage.getItem('business_data')||'{}');
-                        localStorage.setItem('business_data', JSON.stringify({ ...current, logoUrl: String(reader.result) }));
+                        updateBusinessData({ logoUrl: String(reader.result) });
                         const img = document.getElementById('logoPreview') as HTMLImageElement | null;
                         if (img) img.src = String(reader.result);
                       } catch {}
