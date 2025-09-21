@@ -253,7 +253,7 @@ export class ProfessionalInvoiceService {
               width: 100%;
               border-collapse: collapse;
               margin: 30px 0;
-              border: 1px solid #e5e7eb;
+              border: 1px solid #E0E0E0;
             }
             
             .items-table th {
