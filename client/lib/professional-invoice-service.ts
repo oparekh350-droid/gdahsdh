@@ -156,7 +156,7 @@ export class ProfessionalInvoiceService {
             }
             
             .company-details {
-              color: ${config.secondaryColor};
+              color: #000000;
               line-height: 1.5;
             }
             
