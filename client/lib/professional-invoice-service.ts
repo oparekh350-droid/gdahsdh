@@ -323,7 +323,7 @@ export class ProfessionalInvoiceService {
             }
             
             .total-row {
-              background: ${config.primaryColor};
+              background: #000000;
               color: white;
               font-weight: bold;
               font-size: 14px;
