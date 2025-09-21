@@ -458,19 +458,20 @@ export class ProfessionalInvoiceService {
                 </div>
               </div>
               <div class="invoice-title">
+                <div class="avatar-circle">${(config.companyName || 'B').trim().charAt(0).toUpperCase()}</div>
                 <div class="invoice-meta">
                   <table>
                     <tr>
-                      <td class="label">Invoice No:</td>
-                      <td><strong>${invoiceData.invoiceNumber}</strong></td>
+                      <td class="label">Order #:</td>
+                      <td><a class="order-link">${invoiceData.invoiceNumber}</a></td>
                     </tr>
                     <tr>
-                      <td class="label">Invoice Date:</td>
+                      <td class="label">Date:</td>
                       <td>${new Date(invoiceData.invoiceDate).toLocaleDateString('en-IN')}</td>
                     </tr>
                     <tr>
-                      <td class="label">Due Date:</td>
-                      <td>${new Date(invoiceData.dueDate).toLocaleDateString('en-IN')}</td>
+                      <td class="label">Time:</td>
+                      <td>${new Date(invoiceData.invoiceDate).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</td>
                     </tr>
                   </table>
                 </div>
