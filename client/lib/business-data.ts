@@ -13,6 +13,7 @@ export interface BusinessData {
   currency: string;
   timezone: string;
   language: string;
+  logoUrl?: string; // company profile picture/logo
 }
 
 // Default business data - in production this would come from a database
@@ -29,7 +30,8 @@ const getDefaultBusinessData = (): BusinessData => {
     gstNumber: '',
     currency: 'INR',
     timezone: 'Asia/Kolkata',
-    language: 'en'
+    language: 'en',
+    logoUrl: ''
   };
 };
 
