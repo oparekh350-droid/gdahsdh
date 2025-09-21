@@ -269,7 +269,7 @@ export class ProfessionalInvoiceService {
             
             .items-table td {
               padding: 10px 8px;
-              border-bottom: 1px solid #e5e7eb;
+              border-bottom: 1px solid #E0E0E0;
               vertical-align: top;
             }
             
