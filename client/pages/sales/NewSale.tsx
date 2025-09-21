@@ -460,15 +460,29 @@ export default function NewSale() {
           </CardHeader>
           <CardContent className="space-y-4">
             <ProfessionalInvoice invoiceData={generated.data} showActions={false} />
-            <div className="flex justify-end">
+            <div className="flex flex-col sm:flex-row gap-3 items-end justify-between">
+              <div className="flex items-center gap-3">
+                <Label className="text-sm">Send via</Label>
+                <select
+                  className="px-3 py-2 border rounded-md text-sm"
+                  value={sendVia}
+                  onChange={(e)=> setSendVia(e.target.value as any)}
+                >
+                  <option value="SMS">SMS</option>
+                  <option value="WhatsApp">WhatsApp</option>
+                </select>
+              </div>
               <Button
                 onClick={() => {
                   const phone = (generated.phone || '').replace(/\s+/g, '');
                   const origin = window.location.origin;
                   const link = `${origin}/dashboard/document-vault`;
                   const msg = encodeURIComponent(`Invoice ${generated.invoiceNumber}\nAmount: ₹${total.toFixed(2)}\nStatus: ${form.paymentStatus}\nLink: ${link}`);
-                  if (/^\+?[1-9]\d{7,14}$/.test(phone)) {
+                  if (!/^\+?[1-9]\d{7,14}$/.test(phone)) return;
+                  if (sendVia === 'WhatsApp') {
                     window.open(`https://wa.me/${phone.replace(/^\+/, '')}?text=${msg}`, '_blank');
+                  } else {
+                    window.open(`sms:${phone}?&body=${msg}`, '_self');
                   }
                 }}
                 className="min-w-28"
