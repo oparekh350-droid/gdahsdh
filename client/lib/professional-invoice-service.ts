@@ -506,16 +506,15 @@ export class ProfessionalInvoiceService {
                 </tr>
               </thead>
               <tbody>
-                ${invoiceData.items.map((item, index) => `
+                ${invoiceData.items.map((item: any, index) => `
                   <tr>
                     <td class="text-center">${index + 1}</td>
                     <td>${item.description}</td>
-                    <td class="text-center">${item.hsn || '-'}</td>
+                    <td class="text-center">${item.size || '-'}</td>
+                    <td class="text-center">${item.color || '-'}</td>
                     <td class="text-center">${item.quantity}</td>
-                    <td class="text-center">${item.unit}</td>
-                    <td class="text-right amount">₹${item.rate.toFixed(2)}</td>
-                    <td class="text-right">${item.discount || 0}%</td>
-                    <td class="text-right amount">₹${item.amount.toFixed(2)}</td>
+                    <td class="text-right amount">₹${Number(item.rate).toFixed(2)}</td>
+                    <td class="text-right amount">₹${Number(item.amount).toFixed(2)}</td>
                   </tr>
                 `).join('')}
               </tbody>
