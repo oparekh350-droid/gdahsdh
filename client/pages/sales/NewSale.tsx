@@ -45,6 +45,7 @@ export default function NewSale() {
   const [services, setServices] = useState<{ id: string; name: string; serviceCharge: number }[]>([]);
   const [items, setItems] = useState<LineItem[]>([]);
   const [staff, setStaff] = useState<{ id: string; name: string }[]>([]);
+  const [generated, setGenerated] = useState<{ invoiceId: string; invoiceNumber: string; phone: string; data: any } | null>(null);
   const [form, setForm] = useState<FormState>({
     productId: '',
     productLabel: '',
