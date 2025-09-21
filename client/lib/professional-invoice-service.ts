@@ -436,7 +436,6 @@ export class ProfessionalInvoiceService {
                 </div>
               </div>
               <div class="invoice-title">
-                <h1>INVOICE</h1>
                 <div class="invoice-meta">
                   <table>
                     <tr>
