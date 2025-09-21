@@ -190,10 +190,10 @@ export class ProfessionalInvoiceService {
             /* Removed big INVOICE title per requirements */
             
             .invoice-meta {
-              background: #f8fafc;
+              background: #E0E0E0;
               padding: 15px;
               border-radius: 8px;
-              border-left: 4px solid ${config.primaryColor};
+              border-left: 4px solid #000000;
             }
             
             .invoice-meta table {
@@ -514,7 +514,7 @@ export class ProfessionalInvoiceService {
                     <td class="text-center">${item.size || '-'}</td>
                     <td class="text-center">${item.color || '-'}</td>
                     <td class="text-center">${item.quantity}</td>
-                    <td class="text-right amount">₹${Number(item.rate).toFixed(2)}</td>
+                    <td class="text-right amount">���${Number(item.rate).toFixed(2)}</td>
                     <td class="text-right amount">₹${Number(item.amount).toFixed(2)}</td>
                   </tr>
                 `).join('')}
