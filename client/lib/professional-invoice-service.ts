@@ -164,6 +164,28 @@ export class ProfessionalInvoiceService {
               text-align: right;
               flex: 0 0 auto;
             }
+            .avatar-circle {
+              width: 56px;
+              height: 56px;
+              border-radius: 9999px;
+              background: ${config.primaryColor};
+              color: white;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              font-size: 20px;
+              margin-bottom: 8px;
+            }
+            .order-link {
+              color: ${config.primaryColor};
+              font-weight: 600;
+              text-decoration: none;
+            }
+            .muted {
+              color: ${config.secondaryColor};
+              font-size: 12px;
+            }
             
             /* Removed big INVOICE title per requirements */
             
