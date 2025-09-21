@@ -164,6 +164,31 @@ export default function SettingsPage() {
                 <Label htmlFor="businessAddress">Business Address</Label>
                 <Textarea id="businessAddress" required placeholder="Street, City, State, PIN" />
               </div>
+
+              {/* Company Logo */}
+              <div className="space-y-2">
+                <Label htmlFor="companyLogo">Company Logo</Label>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-lg border bg-gray-50 flex items-center justify-center overflow-hidden">
+                    <img id="logoPreview" alt="Logo" className="max-w-full max-h-full object-contain" />
+                  </div>
+                  <Input id="companyLogo" type="file" accept="image/*" onChange={(e)=>{
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = ()=>{
+                      try {
+                        const current = JSON.parse(localStorage.getItem('business_data')||'{}');
+                        localStorage.setItem('business_data', JSON.stringify({ ...current, logoUrl: String(reader.result) }));
+                        const img = document.getElementById('logoPreview') as HTMLImageElement | null;
+                        if (img) img.src = String(reader.result);
+                      } catch {}
+                    };
+                    reader.readAsDataURL(file);
+                  }} />
+                </div>
+                <p className="text-xs text-gray-500">This image will be used as your logo on invoices.</p>
+              </div>
             </CardContent>
           </Card>
 
