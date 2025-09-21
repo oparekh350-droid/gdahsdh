@@ -63,6 +63,11 @@
     @apply border-border;
   }
 
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
     line-height: 1.6;
@@ -104,11 +109,11 @@
 
   /* Professional spacing */
   .section-spacing {
-    @apply py-8 md:py-12;
+    @apply py-6 md:py-12;
   }
 
   .content-spacing {
-    @apply space-y-6 md:space-y-8;
+    @apply space-y-5 md:space-y-8;
   }
 
   .form-spacing {
@@ -124,6 +129,7 @@
 
   .card-surface {
     @apply bg-white border rounded-xl shadow-sm hover:shadow-md transition-shadow;
+    max-width: 100%;
   }
 
   .table-enhanced {
@@ -190,6 +196,25 @@
   /* Smooth transitions */
   .smooth-transition {
     @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Mobile compact helpers */
+  @media (max-width: 1024px) {
+    .mobile-no-x-scroll {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+    .mobile-compact {
+      padding: 0.75rem !important;
+    }
+    .mobile-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    img, svg, canvas, video, table {
+      max-width: 100%;
+    }
   }
 
   /* Enhanced focus states */
