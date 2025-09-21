@@ -541,7 +541,7 @@ export default function InternalChat() {
               </ScrollArea>
 
               {/* Message Input */}
-              <div className="p-4 border-t bg-white">
+              <div className="p-4 border-t bg-white sticky bottom-0 z-10">
                 <form onSubmit={handleSendMessage} className="flex items-end space-x-2">
                   <div className="flex-1">
                     <Textarea

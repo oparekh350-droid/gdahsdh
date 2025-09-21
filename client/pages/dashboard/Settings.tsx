@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { usePermissions } from '@/lib/permissions';
 import WhatsAppConfig from '@/components/WhatsAppConfig';
+import { updateBusinessData } from '@/lib/business-data';
 import BackButton from '@/components/BackButton';
 import UpgradeButton from '@/components/UpgradeButton';
 
@@ -114,6 +115,20 @@ export default function SettingsPage() {
               <CardDescription>Update your business details and contact information</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {permissions.isOwner && authService.getBusinessData()?.businessCode && (
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-blue-800">Business Code</p>
+                    <p className="text-sm text-blue-700">{authService.getBusinessData()?.businessCode}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => navigator.clipboard.writeText(authService.getBusinessData()?.businessCode || '')}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              )}
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="businessName">Business Name</Label>
@@ -178,8 +193,7 @@ export default function SettingsPage() {
                     const reader = new FileReader();
                     reader.onload = ()=>{
                       try {
-                        const current = JSON.parse(localStorage.getItem('business_data')||'{}');
-                        localStorage.setItem('business_data', JSON.stringify({ ...current, logoUrl: String(reader.result) }));
+                        updateBusinessData({ logoUrl: String(reader.result) });
                         const img = document.getElementById('logoPreview') as HTMLImageElement | null;
                         if (img) img.src = String(reader.result);
                       } catch {}

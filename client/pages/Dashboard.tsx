@@ -422,7 +422,7 @@ export default function Dashboard() {
 
             {/* Quick Stats Dashboard */}
             {permissions.hasPermission('view_basic_analytics') && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
                 <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-blue-100">Total Revenue</CardTitle>
@@ -590,7 +590,7 @@ export default function Dashboard() {
             {(permissions.hasPermission('manage_team') || permissions.hasPermission('hrAndStaffAttendance')) && (
               <div className="mb-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Staff Management</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                   {permissions.hasPermission('manage_team') && (
                     <Link to="/dashboard/staff">
                       <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer group border-0 shadow-md aspect-square flex">

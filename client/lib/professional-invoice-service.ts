@@ -69,14 +69,14 @@ export class ProfessionalInvoiceService {
   private static instance: ProfessionalInvoiceService;
   
   private defaultCustomization: InvoiceCustomization = {
-    primaryColor: '#2563eb',
+    primaryColor: '#000000',
     secondaryColor: '#64748b',
     companyName: 'Your Company Name',
     companyAddress: 'Your Business Address\nCity, State - PIN Code',
     companyPhone: '+91 XXXXX XXXXX',
     companyEmail: 'contact@yourcompany.com',
     gstNumber: '',
-    showTermsAndConditions: true,
+    showTermsAndConditions: false,
     termsAndConditions: [
       'Payment is due within 30 days of invoice date',
       'Late payments may be subject to interest charges',
@@ -117,7 +117,7 @@ export class ProfessionalInvoiceService {
               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               font-size: 12px;
               line-height: 1.4;
-              color: #1f2937;
+              color: #000000;
               background: white;
             }
             
@@ -156,7 +156,7 @@ export class ProfessionalInvoiceService {
             }
             
             .company-details {
-              color: ${config.secondaryColor};
+              color: #000000;
               line-height: 1.5;
             }
             
@@ -190,10 +190,10 @@ export class ProfessionalInvoiceService {
             /* Removed big INVOICE title per requirements */
             
             .invoice-meta {
-              background: #f8fafc;
+              background: #E0E0E0;
               padding: 15px;
               border-radius: 8px;
-              border-left: 4px solid ${config.primaryColor};
+              border-left: 4px solid #000000;
             }
             
             .invoice-meta table {
@@ -208,7 +208,7 @@ export class ProfessionalInvoiceService {
             
             .invoice-meta .label {
               font-weight: 600;
-              color: ${config.secondaryColor};
+              color: #444444;
               width: 120px;
             }
             
@@ -230,14 +230,14 @@ export class ProfessionalInvoiceService {
             .section-title {
               font-size: 14px;
               font-weight: bold;
-              color: ${config.primaryColor};
+              color: #000000;
               margin-bottom: 10px;
               padding-bottom: 5px;
-              border-bottom: 1px solid #e5e7eb;
+              border-bottom: 1px solid #E0E0E0;
             }
             
             .customer-details {
-              background: #f8fafc;
+              background: #E0E0E0;
               padding: 15px;
               border-radius: 8px;
               line-height: 1.6;
@@ -253,11 +253,11 @@ export class ProfessionalInvoiceService {
               width: 100%;
               border-collapse: collapse;
               margin: 30px 0;
-              border: 1px solid #e5e7eb;
+              border: 1px solid #E0E0E0;
             }
             
             .items-table th {
-              background: ${config.primaryColor};
+              background: #000000;
               color: white;
               padding: 12px 8px;
               text-align: left;
@@ -269,7 +269,7 @@ export class ProfessionalInvoiceService {
             
             .items-table td {
               padding: 10px 8px;
-              border-bottom: 1px solid #e5e7eb;
+              border-bottom: 1px solid #E0E0E0;
               vertical-align: top;
             }
             
@@ -307,7 +307,7 @@ export class ProfessionalInvoiceService {
             
             .totals-table td {
               padding: 8px 12px;
-              border-bottom: 1px solid #e5e7eb;
+              border-bottom: 1px solid #E0E0E0;
             }
             
             .totals-table .label {
@@ -323,7 +323,7 @@ export class ProfessionalInvoiceService {
             }
             
             .total-row {
-              background: ${config.primaryColor};
+              background: #000000;
               color: white;
               font-weight: bold;
               font-size: 14px;
@@ -334,11 +334,11 @@ export class ProfessionalInvoiceService {
             }
             
             .amount-in-words {
-              background: #f8fafc;
+              background: #E0E0E0;
               padding: 15px;
               border-radius: 8px;
               margin: 20px 0;
-              border-left: 4px solid ${config.primaryColor};
+              border-left: 4px solid #000000;
             }
             
             .amount-in-words .label {
@@ -375,7 +375,7 @@ export class ProfessionalInvoiceService {
               bottom: 40px;
               left: 40px;
               right: 40px;
-              border-top: 2px solid ${config.primaryColor};
+              border-top: 2px solid #000000;
               padding-top: 20px;
               display: flex;
               justify-content: space-between;
@@ -458,6 +458,7 @@ export class ProfessionalInvoiceService {
                 </div>
               </div>
               <div class="invoice-title">
+                <div style="font-weight:700; color:#6b7280; margin-bottom:6px">INVOICE</div>
                 <div class="avatar-circle">${(config.companyName || 'B').trim().charAt(0).toUpperCase()}</div>
                 <div class="invoice-meta">
                   <table>
@@ -581,6 +582,25 @@ export class ProfessionalInvoiceService {
                 </ul>
               </div>
             ` : ''}
+
+            <!-- Payment Information -->
+            ${(invoiceData.paymentMode || invoiceData.paymentStatus || (invoiceData as any).paymentId) ? `
+              <div class="terms-section">
+                <div class="section-title">Payment Information</div>
+                <div style="background:#f8fafc;padding:12px;border-radius:8px">
+                  ${invoiceData.paymentMode ? `<div><strong>Payment Method:</strong> ${invoiceData.paymentMode}</div>` : ''}
+                  ${(invoiceData as any).paymentId ? `<div><strong>Payment ID:</strong> ${(invoiceData as any).paymentId}</div>` : ''}
+                  ${invoiceData.paymentStatus ? `<div><strong>Status:</strong> ${invoiceData.paymentStatus}</div>` : ''}
+                </div>
+              </div>
+            ` : ''}
+
+            <div style="text-align:center; color:${config.secondaryColor}; margin: 20px 0 0;">
+              <div style="font-weight:700; color:${config.primaryColor}; font-size:18px;">Thank you for choosing ${config.companyName.toUpperCase()}!</div>
+              <div style="font-size:13px; margin-top:6px; color:#6b7280;">We appreciate your business and hope you love your new items.</div>
+              <div style="font-size:12px; margin-top:8px; color:#9ca3af;">For support, contact us at ${config.companyEmail}${config.companyPhone ? ' or ' + config.companyPhone : ''}</div>
+              <div style="font-size:11px; margin-top:8px; color:#c4c4c4;">This is a computer-generated invoice and does not require a signature.</div>
+            </div>
 
             <!-- Footer -->
             <div class="footer">
