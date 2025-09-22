@@ -307,6 +307,15 @@
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: rgb(107 114 128);
   }
+
+  /* Hide scrollbar utility (for tab strips, chip bars) */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes fadeIn {
