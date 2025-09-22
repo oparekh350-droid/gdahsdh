@@ -68,43 +68,85 @@
     max-width: 100vw;
   }
 
+  /* Avoid letter-by-letter breaks globally */
+  html, body, #root {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    line-height: 1.6;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-kerning: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   /* Enhanced Typography */
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight;
-    line-height: 1.25;
+    line-height: 1.3;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    letter-spacing: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-kerning: normal;
+    transform: none;
   }
 
   h1 {
-    @apply text-3xl md:text-4xl;
+    font-size: clamp(18px, 2.4vw, 22px);
   }
 
   h2 {
-    @apply text-2xl md:text-3xl;
+    font-size: clamp(16px, 2vw, 20px);
   }
 
   h3 {
-    @apply text-xl md:text-2xl;
+    font-size: clamp(15px, 2vw, 18px);
   }
 
   h4 {
-    @apply text-lg md:text-xl;
+    font-size: 15px;
   }
 
   h5 {
-    @apply text-base md:text-lg;
+    font-size: 14px;
   }
 
   h6 {
-    @apply text-sm md:text-base;
+    font-size: 13px;
   }
 
   p {
-    @apply leading-relaxed;
+    font-size: clamp(13px, 1.9vw, 15px);
+    line-height: 1.55;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    letter-spacing: normal;
+  }
+
+  /* Heading clamp for long titles */
+  h1, h2, h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Ensure flex text containers can truncate without squashing */
+  .flex > * {
+    min-width: 0;
   }
 
   /* Professional spacing */
@@ -172,7 +214,7 @@
   }
 
   .quick-filter-chip {
-    @apply px-3 py-1 rounded-full text-sm font-medium border transition-colors;
+    @apply h-8 px-2.5 rounded-full text-sm font-medium border transition-colors whitespace-nowrap;
   }
 
   .quick-filter-active {
@@ -210,7 +252,13 @@
     .mobile-grid-2 {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
+      gap: 12px;
+    }
+    .chip-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
     }
     img, svg, canvas, video, table {
       max-width: 100%;
@@ -258,6 +306,15 @@
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: rgb(107 114 128);
+  }
+
+  /* Hide scrollbar utility (for tab strips, chip bars) */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 

@@ -131,8 +131,8 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
+          <div className="flex justify-between items-center h-16 gap-2 flex-wrap">
+            <div className="flex items-center gap-3 min-w-0">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
@@ -152,7 +152,7 @@ export default function Dashboard() {
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-3 min-w-0">
               {/* Command Palette Trigger */}
               <Button
                 variant="outline"

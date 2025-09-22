@@ -20,8 +20,6 @@ import Account from "./pages/dashboard/Account"
 import BranchManagement from "./pages/dashboard/BranchManagement"
 import StaffRequests from "./pages/StaffRequests"
 import ImportBatchDetail from "./pages/dashboard/ImportBatchDetail"
-import FloatingBackButton from "./components/FloatingBackButton"
-import NotificationBell from "./components/NotificationBell"
 // Business-specific components
 import CustomerDatabase from "./pages/business/retailer/CustomerDatabase"
 import Services from "./pages/business/retailer/Services"
@@ -733,10 +731,8 @@ const App = () => (
 
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <FloatingBackButton />
         </BrowserRouter>
         <ToastContainer />
-        <NotificationBell />
       </ErrorBoundary>
     </ThemeProvider>
   </QueryClientProvider>
