@@ -87,13 +87,13 @@ export default function BackButton({
   const breadcrumbs = showBreadcrumb ? generateBreadcrumbs() : [];
 
   return (
-    <div className={`flex items-center gap-4 ${className}`}>
+    <div className={`flex items-center gap-3 flex-wrap ${className}`}>
       {/* Back Button */}
       <Button
         variant="outline"
         size="sm"
         onClick={handleBack}
-        className="flex items-center gap-2 hover:bg-gray-50 transition-colors"
+        className="flex items-center gap-2 hover:bg-accent hover:text-accent-foreground transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span className="hidden sm:inline">Back</span>
@@ -104,7 +104,7 @@ export default function BackButton({
 
       {/* Breadcrumb Navigation */}
       {showBreadcrumb && breadcrumbs.length > 1 && (
-        <nav className="flex items-center space-x-1 text-sm text-gray-600">
+        <nav className="min-w-0 overflow-hidden flex items-center gap-1 text-sm text-gray-600">
           {breadcrumbs.map((item, index) => (
             <React.Fragment key={index}>
               {index > 0 && (
@@ -115,12 +115,14 @@ export default function BackButton({
                 {item.path ? (
                   <button
                     onClick={() => navigate(item.path!)}
-                    className="hover:text-blue-600 transition-colors font-medium"
+                    className="hover:text-primary transition-colors font-medium truncate max-w-[60vw] md:max-w-none text-left"
                   >
                     {item.label}
                   </button>
                 ) : (
-                  <span className="text-gray-900 font-medium">{item.label}</span>
+                  <span className="text-gray-900 font-medium truncate max-w-[60vw] md:max-w-none">
+                    {item.label}
+                  </span>
                 )}
               </div>
             </React.Fragment>
