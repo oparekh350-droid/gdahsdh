@@ -126,10 +126,10 @@ export function CheckInWidget() {
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md min-h-[140px]">
       <CardHeader className="text-center">
         <CardTitle className="flex items-center justify-center gap-2">
-          <Clock className="h-5 w-5" />
+          <Clock className="h-5 w-5 md:h-6 md:w-6" />
           Attendance
         </CardTitle>
         <div className="text-2xl font-mono font-bold text-primary">{formatTime(currentTime)}</div>
