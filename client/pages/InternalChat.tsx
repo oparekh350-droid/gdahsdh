@@ -257,7 +257,7 @@ export default function InternalChat() {
   }
 
   return (
-    <div className="container mx-auto p-6 h-[calc(100vh-8rem)]">
+    <div className="container mx-auto p-4 md:p-6 h-[calc(100vh-8rem)]">
       <div className="flex h-full bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Sidebar - Channels */}
         <div className="w-80 border-r bg-gray-50 flex flex-col">
@@ -541,15 +541,15 @@ export default function InternalChat() {
               </ScrollArea>
 
               {/* Message Input */}
-              <div className="p-4 border-t bg-white sticky bottom-0 z-10">
-                <form onSubmit={handleSendMessage} className="flex items-end space-x-2">
-                  <div className="flex-1">
+              <div className="p-3 border-t sticky bottom-0 z-10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 pb-[max(12px,env(safe-area-inset-bottom))]">
+                <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+                  <div className="flex-1 min-w-0">
                     <Textarea
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       placeholder={`Message ${selectedChannel.name}...`}
                       rows={1}
-                      className="resize-none"
+                      className="resize-none min-h-[44px] text-[15px] leading-[1.35]"
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                           e.preventDefault();
@@ -561,13 +561,12 @@ export default function InternalChat() {
                   <div className="flex space-x-1">
                     <Button
                       type="button"
-                      size="sm"
                       variant="outline"
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <Paperclip className="h-4 w-4" />
                     </Button>
-                    <Button type="submit" size="sm" disabled={!newMessage.trim() || isLoading}>
+                    <Button type="submit" disabled={!newMessage.trim() || isLoading}>
                       <Send className="h-4 w-4" />
                     </Button>
                   </div>
